@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SPR521_Shop;
+using SPR521_Shop.Initializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,6 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     var connectionString = builder.Configuration.GetConnectionString("localDb");
     opt.UseNpgsql(connectionString);
 });
-
-
 
 
 var app = builder.Build();
@@ -37,6 +36,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+// Виклик нашого seed
+app.Seed();
 
 
 app.Run();

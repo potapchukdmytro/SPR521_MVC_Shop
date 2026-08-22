@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using SPR521_Shop;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add dbContext
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("localDb");
+    opt.UseNpgsql(connectionString);
+});
+
+
+
 
 var app = builder.Build();
 

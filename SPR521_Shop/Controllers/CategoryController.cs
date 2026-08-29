@@ -62,8 +62,7 @@ namespace SPR521_Shop.Controllers
             {
                 Id = id,
                 Name = category.Name,
-                Description = category.Description,
-                Image = category.Image
+                Description = category.Description
             };
 
             return View(vm);

@@ -7,6 +7,7 @@
 <div>
     <h2 class="text-center">Нова категорія</h2>
     <form 
+        enctype="multipart/form-data"
         method="post"
         asp-controller="Category"
         asp-action="Create"
@@ -28,7 +29,7 @@
         @* Image *@
         <div class="mt-4">
             <label for="image" class="form-label">Зображення</label>
-            <input asp-for="Image" class="form-control" id="image">
+            <input type="file" accept="image/*" asp-for="Image" class="form-control" id="image">
         </div>
 
         <div class="mt-4 w-50 m-auto">

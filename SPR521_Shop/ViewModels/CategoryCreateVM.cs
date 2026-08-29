@@ -8,6 +8,6 @@ namespace SPR521_Shop.ViewModels
         [MaxLength(100, ErrorMessage = "Максимальна довжина 100 символів")]
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public string? Image { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

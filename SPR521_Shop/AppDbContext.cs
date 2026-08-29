@@ -46,7 +46,7 @@ namespace SPR521_Shop
                 .HasColumnType("text");
 
                 e.Property(c => c.Image)
-                .HasMaxLength(255);
+                .HasMaxLength(50);
             });
 
             // Relationships

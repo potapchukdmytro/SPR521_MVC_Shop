@@ -7,6 +7,7 @@
 <div>
     <h2 class="text-center">Редагування категорії</h2>
     <form method="post"
+          enctype="multipart/form-data"
           asp-controller="Category"
           asp-action="Update"
           class="m-auto border p-5 rounded-2 mt-3"
@@ -27,7 +28,7 @@
         @* Image *@
         <div class="mt-4">
             <label for="image" class="form-label">Зображення</label>
-            <input asp-for="Image" class="form-control" id="image">
+            <input asp-for="Image" type="file" accept="image/*" class="form-control" id="image">
         </div>
 
         <div class="mt-4 w-50 m-auto">

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SPR521_Shop.Models;
+using SPR521_Shop.Services;
 using SPR521_Shop.ViewModels;
 
 namespace SPR521_Shop.Repositories
@@ -7,10 +8,19 @@ namespace SPR521_Shop.Repositories
     public class CategoryRepository
     {
         private readonly AppDbContext _context;
+        private readonly ImageService _imageService;
+        private readonly IWebHostEnvironment _environment;
 
-        public CategoryRepository(AppDbContext context)
+        private readonly string _imagesPath;
+
+        public CategoryRepository(AppDbContext context, IWebHostEnvironment environment, ImageService imageService)
         {
             _context = context;
+            _environment = environment;
+            _imageService = imageService;
+
+            string root = _environment.WebRootPath;
+            _imagesPath = Path.Combine(root, "images", "categories");
         }
 
         public IQueryable<Category> Categories => _context.Categories.AsNoTracking();
@@ -33,9 +43,14 @@ namespace SPR521_Shop.Repositories
             var model = new Category
             {
                 Name = vm.Name!,
-                Description = vm.Description,
-                Image = vm.Image
+                Description = vm.Description
             };
+
+            // save image
+            if(vm.Image != null)
+            {
+                model.Image = await _imageService.SaveImageAsync(vm.Image, _imagesPath);
+            }
 
             await _context.Categories.AddAsync(model);
             await _context.SaveChangesAsync();
@@ -67,7 +82,17 @@ namespace SPR521_Shop.Repositories
 
             category.Description = vm.Description;
             category.Name = vm.Name!;
-            category.Image = vm.Image;
+
+            if(vm.Image != null)
+            {
+                if(category.Image != null)
+                {
+                    string imagePath = Path.Combine(_imagesPath, category.Image);
+                    _imageService.DeleteImage(imagePath);
+                }
+
+                category.Image = await _imageService.SaveImageAsync(vm.Image, _imagesPath);
+            }
 
             await _context.SaveChangesAsync();
 
@@ -80,6 +105,12 @@ namespace SPR521_Shop.Repositories
 
             if(category != null)
             {
+                if(category.Image != null)
+                {
+                    string imagePath = Path.Combine(_imagesPath, category.Image);
+                    _imageService.DeleteImage(imagePath);
+                }
+
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
             }

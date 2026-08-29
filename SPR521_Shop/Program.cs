@@ -3,6 +3,7 @@ using SPR521_Shop;
 using SPR521_Shop.Controllers;
 using SPR521_Shop.Initializer;
 using SPR521_Shop.Repositories;
+using SPR521_Shop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 // Створює екземпляр коли приходить запит та видаляє коли відправляється відповідь
 builder.Services.AddScoped<CategoryRepository>();
+
+// Add services
+builder.Services.AddScoped<ImageService>();
 
 var app = builder.Build();
 

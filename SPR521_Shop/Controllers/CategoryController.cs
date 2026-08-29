@@ -1,33 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SPR521_Shop.Models;
+using SPR521_Shop.Repositories;
+using SPR521_Shop.ViewModels;
 
 namespace SPR521_Shop.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly CategoryRepository _categoryRepository;
 
-        public CategoryController(AppDbContext context)
+        public CategoryController(CategoryRepository categoryRepository)
         {
-            _context = context;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
         {
             //var categories = _context.Categories.AsEnumerable();
-            IEnumerable<Category> categories = _context.Categories;
+            IEnumerable<Category> categories = _categoryRepository.Categories;
 
             return View(categories);
         }
 
-        public void Any(object obj)
+        [HttpGet]
+        public IActionResult Create()
         {
-            DateTime? dt = obj as DateTime?;
+            return View();
+        }
 
-            if(dt == null)
-            { 
-            }
+        [HttpPost]
+        public IActionResult Create(CategoryCreateVM vm)
+        {
+            return View();
         }
     }
 }

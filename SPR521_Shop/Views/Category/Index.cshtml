@@ -5,7 +5,12 @@
 }
 
 <div>
-    <h2 class="text-center">Категорії</h2>
+    <div class="d-flex">
+        <h2 class="text-center flex-grow-1">Категорії</h2>
+        <a asp-controller="Category" asp-action="Create" style="font-size: 2em;" class="me-4">
+            <i class="bi bi-plus-square-fill text-primary"></i>
+        </a>
+    </div>
     <div class="container">
         @if(Model.Any())
         {   

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SPR521_Shop;
+using SPR521_Shop.Controllers;
 using SPR521_Shop.Initializer;
+using SPR521_Shop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,15 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(connectionString);
 });
 
+// Add Repositories
+//  лас буде ≥снувати в одному екземпл€р≥
+//builder.Services.AddSingleton<CategoryRepository>();
+
+// Ѕуде створювати екземпл€р кожного разу коли в≥н потр≥бен
+//builder.Services.AddTransient<CategoryRepository>();
+
+// —творюЇ екземпл€р коли приходить запит та видал€Ї коли в≥дправл€Їтьс€ в≥дпов≥дь
+builder.Services.AddScoped<CategoryRepository>();
 
 var app = builder.Build();
 

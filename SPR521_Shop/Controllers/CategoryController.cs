@@ -29,9 +29,72 @@ namespace SPR521_Shop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryCreateVM vm)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CategoryCreateVM vm)
         {
-            return View();
+            if(!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var result = await _categoryRepository.CreateAsync(vm);
+
+            if(result != null)
+            {
+                ModelState.AddModelError("Name", result);
+                return View(vm);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            if (category == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var vm = new CategoryUpdateVM
+            {
+                Id = id,
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(CategoryUpdateVM vm)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var result = await _categoryRepository.UpdateAsync(vm);
+
+            if(result != null)
+            {
+                ModelState.AddModelError("Name", result);
+                return View(vm);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _categoryRepository.DeleteAsync(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

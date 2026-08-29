@@ -16,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(connectionString);
 });
 
-// Add Repositories
+// Add Repositories to Dependency injection
 // Клас буде існувати в одному екземплярі
 //builder.Services.AddSingleton<CategoryRepository>();
 

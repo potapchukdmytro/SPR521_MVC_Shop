@@ -1,17 +1,16 @@
-﻿@model CategoryCreateVM
+﻿@model CategoryUpdateVM
 
 @{
-    ViewData["Title"] = "Нова категорія";
+    ViewData["Title"] = "Редагування категорії";
 }
 
 <div>
-    <h2 class="text-center">Нова категорія</h2>
-    <form 
-        method="post"
-        asp-controller="Category"
-        asp-action="Create"
-        class="m-auto border p-5 rounded-2 mt-3" 
-        style="width: 35%;">
+    <h2 class="text-center">Редагування категорії</h2>
+    <form method="post"
+          asp-controller="Category"
+          asp-action="Update"
+          class="m-auto border p-5 rounded-2 mt-3"
+          style="width: 35%;">
         @* Name *@
         <div>
             <label for="name" class="form-label">Назва</label>
@@ -32,7 +31,7 @@
         </div>
 
         <div class="mt-4 w-50 m-auto">
-            <input type="submit" class="btn btn-success w-100" value="Додати" />
+            <input type="submit" class="btn btn-success w-100" value="Зберегти" />
         </div>
     </form>
 </div>

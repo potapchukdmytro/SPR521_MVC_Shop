@@ -26,6 +26,19 @@
                             <div class="card-body">
                                 <p class="card-text">@category.Description</p>
                             </div>
+                            <div class="text-center p-3">
+                                <a 
+                                    asp-controller="Category" 
+                                    asp-action="Update"
+                                    asp-route-id="@category.Id"
+                                    class="btn btn-success">Редагувати</a>
+
+                                <a 
+                                    asp-controller="Category" 
+                                    asp-action="Delete" 
+                                    asp-route-id="@category.Id" 
+                                    class="btn btn-danger">Видалити</a>
+                            </div>
                         </div>
                     </div>
                 }

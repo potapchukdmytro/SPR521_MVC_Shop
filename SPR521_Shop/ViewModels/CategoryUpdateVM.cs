@@ -2,8 +2,10 @@
 
 namespace SPR521_Shop.ViewModels
 {
-    public class CategoryCreateVM
+    public class CategoryUpdateVM
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Назва є обов'язковою")]
         [MaxLength(100, ErrorMessage = "Максимальна довжина 100 символів")]
         public string? Name { get; set; }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SPR521_Shop.Models;
 using SPR521_Shop.Repositories;
 using SPR521_Shop.ViewModels;
 
 namespace SPR521_Shop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly CategoryRepository _categoryRepository;
@@ -14,6 +16,7 @@ namespace SPR521_Shop.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        //[AllowAnonymous]
         public IActionResult Index()
         {
             //var categories = _context.Categories.AsEnumerable();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using SPR521_Shop;
 using SPR521_Shop.Initializer;
@@ -31,6 +32,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
+
+    options.Lockout.AllowedForNewUsers = true;
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
 })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders()
@@ -49,6 +54,7 @@ builder.Services.AddScoped<ProductRepository>();
 
 // Add services
 builder.Services.AddScoped<ImageService>();
+//builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
 

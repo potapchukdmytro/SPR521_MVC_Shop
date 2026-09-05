@@ -17,21 +17,32 @@ namespace SPR521_Shop.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index(string? category)
+        public async Task<IActionResult> Index(string? category, int page = 1)
         {
             IQueryable<Product> products = _productRepository.Products
                 .Include(p => p.Category);
 
+            // category
             if(!string.IsNullOrEmpty(category))
             {
                 products = products
                     .Where(p => p.Category!.Name.ToLower() == category.ToLower());
             }
 
+            // pagination
+            int pageSize = 20;
+            int total = products.Count();
+            int pages = (int)Math.Ceiling((double)total / pageSize);
+            page = page < 1 || page > pages ? 1 : page;
+            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+
             var viewModel = new ProductsTableVM
             {
                 Products = products,
-                Categories = await _categoryRepository.Categories.ToListAsync()
+                Categories = await _categoryRepository.Categories.ToListAsync(),
+                Page = page,
+                PageCount = pages,
+                Category = category
             };
 
             return View(viewModel);

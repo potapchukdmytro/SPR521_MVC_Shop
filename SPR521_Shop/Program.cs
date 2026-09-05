@@ -26,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 // Створює екземпляр коли приходить запит та видаляє коли відправляється відповідь
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<ProductRepository>();
 
 // Add services
 builder.Services.AddScoped<ImageService>();

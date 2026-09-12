@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SPR521_Shop.Extensions;
 using SPR521_Shop.Models;
 using SPR521_Shop.Repositories;
 using SPR521_Shop.ViewModels;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace SPR521_Shop.Controllers
 {

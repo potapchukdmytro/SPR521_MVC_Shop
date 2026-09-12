@@ -1,4 +1,5 @@
 ﻿using SPR521_Shop.Extensions;
+using SPR521_Shop.Models;
 using SPR521_Shop.ViewModels;
 
 namespace SPR521_Shop.Services
@@ -7,8 +8,9 @@ namespace SPR521_Shop.Services
     {
         private const string _key = "d993c15400936e316a27606dd3dd99469e21cf9cb6865db4309ed1b6d1351210";
         private readonly HttpContext _context;
+        private readonly AppDbContext _dbContext;
 
-        public CartService(IHttpContextAccessor accessor)
+        public CartService(IHttpContextAccessor accessor, AppDbContext dbContext)
         {
             if (accessor.HttpContext == null)
             {
@@ -16,6 +18,7 @@ namespace SPR521_Shop.Services
             }
 
             _context = accessor.HttpContext;
+            _dbContext = dbContext;
         }
 
         public List<CartItemVM> GetItems()
@@ -37,7 +40,7 @@ namespace SPR521_Shop.Services
             return items.Sum(i => i.Count);
         }
 
-        public void Add(int productId)
+        public async void Add(int productId)
         {
             if(!IsInCart(productId))
             {

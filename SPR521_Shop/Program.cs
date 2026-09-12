@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPR521_Shop;
 using SPR521_Shop.Initializer;
 using SPR521_Shop.Models;
 using SPR521_Shop.Repositories;
 using SPR521_Shop.Services;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 // Створює екземпляр коли приходить запит та видаляє коли відправляється відповідь
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<CartRepository>();
 
 // Add services
 builder.Services.AddScoped<ImageService>();
@@ -84,6 +86,31 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+// Виконується коли користувач заходить на сайт
+app.Use(async (context, next) =>
+{
+    if (context.User.Identity != null && context.User.Identity.IsAuthenticated)
+    {
+        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId != null)
+        {
+            var cartService = context.RequestServices.GetRequiredService<CartService>();
+            var cartRepository = context.RequestServices.GetRequiredService<CartRepository>();
+            if(cartService.Count() != await cartRepository.CountAsync(userId))
+            {
+                var userItems = await cartRepository.GetItemsAsync(userId);
+
+                foreach (var item in userItems)
+                {
+                    cartService.Add(item.ProductId);
+                }
+            }
+        }
+    }
+
+    await next();
+});
 
 app.MapRazorPages();
 

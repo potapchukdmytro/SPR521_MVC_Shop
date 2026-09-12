@@ -13,6 +13,7 @@ namespace SPR521_Shop
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +51,12 @@ namespace SPR521_Shop
                 .HasMaxLength(50);
             });
 
+            // CartItem
+            modelBuilder.Entity<CartItem>(e =>
+            {
+                e.HasKey(ci => ci.Id);
+            });
+
             // Relationships
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
@@ -57,6 +64,16 @@ namespace SPR521_Shop
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
+
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.CartItems)
+                .WithOne(ci => ci.Product)
+                .HasForeignKey(ci => ci.ProductId);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.CartItems)
+                .WithOne(ci => ci.User)
+                .HasForeignKey(ci => ci.UserId);
         }
     }
 }

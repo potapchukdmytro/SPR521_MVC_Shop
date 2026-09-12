@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject CartService Cart
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,6 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="About">Про нас</a>
                         </li>
+
                         @if (User.IsInRole("admin"))
                         {
 
@@ -39,6 +42,18 @@
                         }
                         <li class="nav-item flex-grow-1">
                             <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Товари</a>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <button type="button"
+                                    class="mx-4 btn btn-outline-dark position-relative d-flex align-items-center justify-content-center"
+                                    style="width: 30px; height: 30px;">
+                                <i class="bi bi-cart3 fs-5"></i>
+
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @Cart.Count()
+                                    <span class="visually-hidden">товарів у кошику</span>
+                                </span>
+                            </button>
                         </li>
                         <li class="nav-item">
                             <partial name="_LoginPartial" />

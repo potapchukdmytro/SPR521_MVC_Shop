@@ -21,6 +21,15 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(connectionString);
 });
 
+// Add session
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(cfg =>
+{
+    cfg.Cookie.HttpOnly = true;
+    cfg.Cookie.IsEssential = true;
+    cfg.IdleTimeout = TimeSpan.FromHours(1);
+});
+
 // Add identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -54,6 +63,7 @@ builder.Services.AddScoped<ProductRepository>();
 
 // Add services
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<CartService>();
 //builder.Services.AddScoped<IEmailSender, EmailService>();
 
 var app = builder.Build();
@@ -68,6 +78,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

@@ -19,7 +19,8 @@ namespace SPR521_Shop.Controllers
         public IActionResult Index()
         {
             var products = _productRepository.Products
-                .Include(p => p.Category);
+                .Include(p => p.Category)
+                .OrderBy(p => p.Id);
 
             var vm = new HomeVM
             {

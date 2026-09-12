@@ -38,6 +38,14 @@ namespace SPR521_Shop.Repositories
             }
         }
 
+        public async Task ClearAsync(string userId)
+        {
+            var items = _context.CartItems
+                .Where(i => i.UserId == userId);
+
+            _context.CartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
+        }
         public async Task<int> CountAsync(string userId)
         {
             return await _context.CartItems

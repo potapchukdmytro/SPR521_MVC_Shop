@@ -103,7 +103,7 @@ app.Use(async (context, next) =>
 
                 foreach (var item in userItems)
                 {
-                    cartService.Add(item.ProductId);
+                    cartService.Add(item.ProductId, item.Count);
                 }
             }
         }

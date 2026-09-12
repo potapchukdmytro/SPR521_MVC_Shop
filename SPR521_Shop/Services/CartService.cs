@@ -40,14 +40,19 @@ namespace SPR521_Shop.Services
             return items.Sum(i => i.Count);
         }
 
-        public async void Add(int productId)
+        public async void Add(int productId, int count = 1)
         {
             if(!IsInCart(productId))
             {
                 var items = GetItems();
-                items.Add(new CartItemVM { ProductId = productId });
+                items.Add(new CartItemVM { ProductId = productId, Count = count });
                 _context.Session.Set(_key, items);
             }
+        }
+
+        public void Clear()
+        {
+            _context.Session.Set<List<CartItem>>(_key, []);
         }
 
         public void Remove(int productId)

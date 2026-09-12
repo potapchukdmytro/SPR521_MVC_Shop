@@ -44,7 +44,7 @@
                             <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Товари</a>
                         </li>
                         <li class="d-flex align-items-center">
-                            <button type="button"
+                            <a asp-action="Index" asp-controller="Cart"
                                     class="mx-4 btn btn-outline-dark position-relative d-flex align-items-center justify-content-center"
                                     style="width: 30px; height: 30px;">
                                 <i class="bi bi-cart3 fs-5"></i>
@@ -53,7 +53,7 @@
                                     @Cart.Count()
                                     <span class="visually-hidden">товарів у кошику</span>
                                 </span>
-                            </button>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <partial name="_LoginPartial" />

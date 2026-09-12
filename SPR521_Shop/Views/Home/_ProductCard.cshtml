@@ -4,7 +4,7 @@
 <div class="card product-card border-0 rounded-4 shadow-sm">
     <div class="position-relative">
         <div class="overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw0fHxoZWFkcGhvbmV8ZW58MHwwfHx8MTczNDc5NTEyM3ww&ixlib=rb-4.0.3&q=80&w=1080" class="card-img-top product-image" alt="Product Image">
+            <img src="~/images/products/@(Model.Image != null ? Model.Image : "default.jpg")" class="card-img-top product-image" style="object-fit: contain;" alt="Product Image">
         </div>
     </div>
     <div class="card-body p-4">
